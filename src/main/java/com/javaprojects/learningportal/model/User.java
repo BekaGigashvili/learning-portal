@@ -26,7 +26,7 @@ public class User {
     private String password;
     @Enumerated(EnumType.STRING)
     private Role role;
-    @ManyToMany()
+    @ManyToMany(cascade = CascadeType.PERSIST)
     @JoinTable(
             name = "enrolled_courses",
             joinColumns = @JoinColumn(name = "user_id"),

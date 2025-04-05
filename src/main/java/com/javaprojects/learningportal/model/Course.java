@@ -27,7 +27,7 @@ public class Course {
     @ManyToOne
     @JoinColumn(name = "instructor_id")
     private User instructor;
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.PERSIST)
     @JoinTable(
             name = "course_enrollments",
             joinColumns = @JoinColumn(name = "course_id"),
