@@ -1,6 +1,7 @@
 package com.javaprojects.learningportal.service;
 
 import com.javaprojects.learningportal.model.Course;
+import com.javaprojects.learningportal.model.Lesson;
 import com.javaprojects.learningportal.model.User;
 import com.javaprojects.learningportal.repository.CourseRepository;
 import lombok.RequiredArgsConstructor;
@@ -24,5 +25,12 @@ public class CourseService {
                 .findById(courseId)
                 .orElseThrow(() -> new RuntimeException("Course not found"));
         return course.getEnrolledStudents();
+    }
+
+    public Set<Lesson> getCourseLessons(Long courseId) {
+        Course course = courseRepository
+                .findById(courseId)
+                .orElseThrow(() -> new RuntimeException("Course not found"));
+        return course.getLessons();
     }
 }
