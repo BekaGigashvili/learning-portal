@@ -2,6 +2,7 @@ package com.javaprojects.learningportal.controller;
 
 import com.javaprojects.learningportal.model.Course;
 import com.javaprojects.learningportal.service.UserService;
+import jakarta.validation.constraints.Email;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,13 +14,13 @@ import java.util.Set;
 public class UserController {
     private final UserService userService;
 
-    @PostMapping("/enroll/{courseId}/{userEmail}")
+    @PostMapping("/enroll/{courseId}/{userId}")
     public String enrollInCourse(@PathVariable Long courseId,
-                                 @PathVariable String userEmail) {
-        return userService.enrollInCourse(courseId, userEmail);
+                                 @PathVariable Long userId) {
+        return userService.enrollInCourse(courseId, userId);
     }
-    @GetMapping("/courses/{userEmail}")
-    public Set<Course> getEnrolledCourses(@PathVariable String userEmail) {
-        return userService.getEnrolledCourses(userEmail);
+    @GetMapping("/courses/{userId}")
+    public Set<Course> getEnrolledCourses(@PathVariable Long userId) {
+        return userService.getEnrolledCourses(userId);
     }
 }

@@ -18,12 +18,12 @@ public class UserService {
     private final CourseService courseService;
 
     @Transactional
-    public String enrollInCourse(Long courseId, String userEmail) {
+    public String enrollInCourse(Long courseId, Long userId) {
         Course course = courseRepository
                 .findById(courseId)
                 .orElseThrow(() -> new RuntimeException("Course not found"));
         User user = userRepository
-                .findByEmail(userEmail)
+                .findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
         if(user.getEnrolledCourses().contains(course)) {
             return "User already enrolled in this course";
@@ -34,10 +34,12 @@ public class UserService {
         return "enrolled in course";
     }
 
-    public Set<Course> getEnrolledCourses(String userEmail) {
+    public Set<Course> getEnrolledCourses(Long userId) {
         User user = userRepository
-                .findByEmail(userEmail)
+                .findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
         return user.getEnrolledCourses();
     }
+
+
 }
