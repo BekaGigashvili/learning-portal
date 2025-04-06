@@ -1,8 +1,6 @@
 package com.javaprojects.learningportal.controller;
 
 import com.javaprojects.learningportal.model.RegistrationRequest;
-import com.javaprojects.learningportal.model.VerificationToken;
-import com.javaprojects.learningportal.service.EmailService;
 import com.javaprojects.learningportal.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -14,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/registration")
 public class RegistrationController {
     private final UserService userService;
-    private final EmailService emailService;
 
     @PostMapping("/register")
     public ResponseEntity<String> registerUser(@RequestBody RegistrationRequest request){
@@ -31,6 +28,6 @@ public class RegistrationController {
     }
     @GetMapping("/verify")
     public String verifyAndEnableUser(@RequestParam("token") String token){
-        return emailService.verifyEmail(token);
+        return userService.verifyAndEnableUser(token);
     }
 }

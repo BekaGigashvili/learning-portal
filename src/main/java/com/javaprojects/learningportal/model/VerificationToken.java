@@ -18,7 +18,8 @@ public class VerificationToken {
     private Long id;
     @Column(nullable = false, unique = true)
     private String token;
-    @OneToOne(mappedBy = "user")
+    @OneToOne
+    @JoinColumn(name = "user_id")
     private User user;
     @Column(nullable = false)
     private LocalDateTime expiryDate;

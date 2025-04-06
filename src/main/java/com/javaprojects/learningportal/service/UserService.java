@@ -82,10 +82,18 @@ public class UserService {
         return emailService.sendEmail(user.getEmail(), token);
     }
 
-    public String verifyAndEnableUser(VerificationToken token){
-        token.setConfirmedAt(LocalDateTime.now());
-        verificationTokenService.saveToken(token);
-        User user = token.getUser();
+    @Transactional
+    public String verifyAndEnableUser(String token){
+        VerificationToken databaseToken = verificationTokenService.findByToken(token);
+        if(databaseToken.getConfirmedAt() != null){
+            return "Email already verified";
+        }
+        if(databaseToken.getExpiryDate().isBefore(LocalDateTime.now())){
+            return "Verification link expired";
+        }
+        databaseToken.setConfirmedAt(LocalDateTime.now());
+        verificationTokenService.saveToken(databaseToken);
+        User user = databaseToken.getUser();
         user.setEnabled(true);
         userRepository.save(user);
         return "Email verified!";

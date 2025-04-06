@@ -32,6 +32,8 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Role role;
     private boolean enabled;
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private VerificationToken verificationToken;
     @ManyToMany(cascade = CascadeType.PERSIST)
     @JoinTable(
             name = "enrolled_courses",
