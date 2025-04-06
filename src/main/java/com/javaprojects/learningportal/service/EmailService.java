@@ -40,9 +40,6 @@ public class EmailService {
         if(databaseToken.getExpiryDate().isBefore(LocalDateTime.now())){
             return "Verification link expired";
         }
-        databaseToken.setConfirmedAt(LocalDateTime.now());
-        User user = databaseToken.getUser();
-        userService.enableUser(user);
-        return "Email verified!";
+        return userService.verifyAndEnableUser(databaseToken);
     }
 }

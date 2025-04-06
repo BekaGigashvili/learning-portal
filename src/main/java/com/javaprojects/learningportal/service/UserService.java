@@ -82,8 +82,12 @@ public class UserService {
         return emailService.sendEmail(user.getEmail(), token);
     }
 
-    public void enableUser(User user){
+    public String verifyAndEnableUser(VerificationToken token){
+        token.setConfirmedAt(LocalDateTime.now());
+        verificationTokenService.saveToken(token);
+        User user = token.getUser();
         user.setEnabled(true);
         userRepository.save(user);
+        return "Email verified!";
     }
 }
