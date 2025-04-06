@@ -1,9 +1,6 @@
 package com.javaprojects.learningportal.service;
 
-import com.javaprojects.learningportal.model.Course;
-import com.javaprojects.learningportal.model.RegistrationRequest;
-import com.javaprojects.learningportal.model.User;
-import com.javaprojects.learningportal.model.VerificationToken;
+import com.javaprojects.learningportal.model.*;
 import com.javaprojects.learningportal.repository.UserRepository;
 import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
@@ -66,6 +63,7 @@ public class UserService {
             user.setEmail(email);
             user.setFirstName(request.getFirstName());
             user.setLastName(request.getLastName());
+            user.setRole(Role.STUDENT);
             String encodedPassword = bCryptPasswordEncoder.encode(request.getPassword());
             user.setPassword(encodedPassword);
             user.setEnabled(false);

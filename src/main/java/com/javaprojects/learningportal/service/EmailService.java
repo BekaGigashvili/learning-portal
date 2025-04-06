@@ -19,7 +19,7 @@ public class EmailService {
         helper.setTo(to);
         helper.setSubject("Email Verification");
         helper.setText("Please verify your email address by clicking on the link below: " +
-                "http://localhost:8080/verify?token=" + token);
+                "http://localhost:8080/registration/verify?token=" + token);
         mailSender.send(mimeMessage);
         return "Verification link sent";
     }
