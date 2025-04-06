@@ -46,7 +46,7 @@ public class UserService {
                 .orElseThrow(() -> new RuntimeException("User not found"));
         return user.getEnrolledCourses();
     }
-
+    @Transactional
     public String register(RegistrationRequest request) throws MessagingException {
         String email = request.getEmail();
         Optional<User> optUser = userRepository.findByEmail(email);
