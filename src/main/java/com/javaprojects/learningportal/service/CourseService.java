@@ -33,4 +33,10 @@ public class CourseService {
                 .orElseThrow(() -> new RuntimeException("Course not found"));
         return course.getLessons();
     }
+
+    public Course getCourse(Long courseId) {
+        return courseRepository
+                .findById(courseId)
+                .orElseThrow(() -> new RuntimeException("Course not found"));
+    }
 }
