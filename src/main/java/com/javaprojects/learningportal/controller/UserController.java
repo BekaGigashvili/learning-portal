@@ -23,4 +23,6 @@ public class UserController {
     public Set<Course> getEnrolledCourses(@PathVariable Long userId) {
         return userService.getEnrolledCourses(userId);
     }
+
+
 }
