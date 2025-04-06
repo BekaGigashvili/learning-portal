@@ -22,5 +22,6 @@ public class VerificationToken {
     private User user;
     @Column(nullable = false)
     private LocalDateTime expiryDate;
+    private LocalDateTime confirmedAt;
 
 }

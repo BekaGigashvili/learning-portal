@@ -59,12 +59,12 @@ public class UserService {
             VerificationToken existingVerificationToken = verificationTokenService
                     .findByUser(existingUser);
             if (existingVerificationToken.getExpiryDate().isBefore(LocalDateTime.now())) {
-                verificationTokenService.deleteBuUser(existingUser);
+                verificationTokenService.deleteByUser(existingUser);
                 user = existingUser;
             }
         }else{
             user.setEmail(email);
-            user.setFirstName(request.getFistName());
+            user.setFirstName(request.getFirstName());
             user.setLastName(request.getLastName());
             String encodedPassword = bCryptPasswordEncoder.encode(request.getPassword());
             user.setPassword(encodedPassword);
@@ -80,5 +80,10 @@ public class UserService {
                 .build();
         verificationTokenService.saveToken(verificationToken);
         return emailService.sendEmail(user.getEmail(), token);
+    }
+
+    public void enableUser(User user){
+        user.setEnabled(true);
+        userRepository.save(user);
     }
 }

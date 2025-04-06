@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 public class VerificationTokenService {
     private final VerificationTokenRepository verificationTokenRepository;
 
-    public void deleteBuUser(User user){
+    public void deleteByUser(User user){
         verificationTokenRepository.deleteByUser(user);
     }
 
@@ -21,5 +21,11 @@ public class VerificationTokenService {
 
     public void saveToken(VerificationToken verificationToken){
         verificationTokenRepository.save(verificationToken);
+    }
+
+    public VerificationToken findByToken(String token){
+        return verificationTokenRepository
+                .findByToken(token)
+                .orElseThrow(() -> new RuntimeException("Token not found"));
     }
 }

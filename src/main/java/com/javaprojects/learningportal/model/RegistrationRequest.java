@@ -9,7 +9,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @ToString
 public class RegistrationRequest {
-    private final String fistName;
+    private final String firstName;
     private final String lastName;
     @Email
     private final String email;
