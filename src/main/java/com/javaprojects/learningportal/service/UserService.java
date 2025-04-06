@@ -4,9 +4,7 @@ import com.javaprojects.learningportal.model.Course;
 import com.javaprojects.learningportal.model.RegistrationRequest;
 import com.javaprojects.learningportal.model.User;
 import com.javaprojects.learningportal.model.VerificationToken;
-import com.javaprojects.learningportal.repository.CourseRepository;
 import com.javaprojects.learningportal.repository.UserRepository;
-import com.javaprojects.learningportal.repository.VerificationTokenRepository;
 import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -22,7 +20,6 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
-    private final CourseRepository courseRepository;
     private final CourseService courseService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final EmailService emailService;
