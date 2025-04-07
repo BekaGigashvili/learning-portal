@@ -1,10 +1,8 @@
 package com.javaprojects.learningportal.controller;
 
-import com.javaprojects.learningportal.model.Course;
-import com.javaprojects.learningportal.model.CourseRequest;
-import com.javaprojects.learningportal.model.Lesson;
-import com.javaprojects.learningportal.model.User;
+import com.javaprojects.learningportal.model.*;
 import com.javaprojects.learningportal.service.CourseService;
+import com.sun.jdi.LongValue;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
@@ -28,9 +26,17 @@ public class CourseController {
     }
     @PostMapping("/create")
     @PreAuthorize("hasRole('INSTRUCTOR')")
-    public Course createCourse(@RequestBody CourseRequest request,
+    public CourseResponse createCourse(@RequestBody CourseRequest request,
                                Authentication authentication) {
         User instructor = (User) authentication.getPrincipal();
         return courseService.createCourse(request, instructor);
+    }
+    @PutMapping("/{courseId}/add-lesson")
+    @PreAuthorize("hasRole('INSTRUCTOR')")
+    public CourseResponse addLesson(Authentication authentication,
+                                    @PathVariable Long courseId,
+                                    @RequestBody Lesson lesson) {
+        User instructor = (User) authentication.getPrincipal();
+        return courseService.addLesson(courseId, lesson, instructor.getEmail());
     }
 }
