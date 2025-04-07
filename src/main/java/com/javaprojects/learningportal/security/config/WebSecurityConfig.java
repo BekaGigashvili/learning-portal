@@ -27,6 +27,7 @@ public class WebSecurityConfig {
                         authorizeRequests
                                 .requestMatchers("/registration/**","/auth/**")
                                 .permitAll()
+                                .requestMatchers("/user/**").hasAnyRole("STUDENT", "INSTRUCTOR", "ADMIN")
                                 .anyRequest().authenticated()
                 ).exceptionHandling(exception ->
                         exception.authenticationEntryPoint(authenticationEntryPoint))
@@ -37,5 +38,4 @@ public class WebSecurityConfig {
                 .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
-
 }
