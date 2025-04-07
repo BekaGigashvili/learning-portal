@@ -15,8 +15,12 @@ public class Lesson {
     private Long id;
     private String title;
     private String videoURL;
-    @ManyToOne()
+    @ManyToOne
     @JoinColumn(name = "course_id")
     private Course course;
 
+    public Lesson(String title, String videoURL) {
+        this.title = title;
+        this.videoURL = videoURL;
+    }
 }
