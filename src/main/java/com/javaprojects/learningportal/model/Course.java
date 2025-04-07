@@ -34,7 +34,10 @@ public class Course {
             inverseJoinColumns = @JoinColumn(name = "student_id")
     )
     private Set<User> enrolledStudents = new HashSet<>();
-    @Column(nullable = false)
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Lesson> lessons = new HashSet<>();
+
+    public String getInstructor() {
+        return instructor.getEmail();
+    }
 }
