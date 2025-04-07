@@ -28,6 +28,7 @@ public class WebSecurityConfig {
                                 .requestMatchers("/registration/**","/auth/**")
                                 .permitAll()
                                 .requestMatchers("/user/**").hasAnyRole("STUDENT", "INSTRUCTOR", "ADMIN")
+                                .requestMatchers("/course/**").hasAnyRole("INSTRUCTOR", "ADMIN")
                                 .anyRequest().authenticated()
                 ).exceptionHandling(exception ->
                         exception.authenticationEntryPoint(authenticationEntryPoint))
