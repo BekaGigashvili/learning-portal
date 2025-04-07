@@ -34,12 +34,7 @@ public class User implements UserDetails {
     private boolean enabled;
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private VerificationToken verificationToken;
-    @ManyToMany(cascade = CascadeType.PERSIST)
-    @JoinTable(
-            name = "enrolled_courses",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "course_id")
-    )
+    @ManyToMany(mappedBy = "enrolledStudents", cascade = CascadeType.PERSIST)
     private Set<Course> enrolledCourses;
 
     @Override
