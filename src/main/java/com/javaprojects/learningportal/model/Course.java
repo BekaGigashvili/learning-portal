@@ -17,16 +17,22 @@ public class Course {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @Column(nullable = false)
     private String name;
+
     @Column(nullable = false, length = 100)
     private String description;
+
     private String thumbnailURL;
+
     @Column(nullable = false)
     private double price;
+
     @ManyToOne
     @JoinColumn(name = "instructor_id")
     private User instructor;
+
     @ManyToMany(cascade = CascadeType.PERSIST)
     @JoinTable(
             name = "course_enrollments",
@@ -34,10 +40,9 @@ public class Course {
             inverseJoinColumns = @JoinColumn(name = "student_id")
     )
     private Set<User> enrolledStudents = new HashSet<>();
+
     @OneToMany(mappedBy = "course", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
     private Set<Lesson> lessons = new HashSet<>();
 
-    public String getInstructor() {
-        return instructor.getEmail();
-    }
 }
