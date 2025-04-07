@@ -33,7 +33,6 @@ public class UserService {
         }
         user.getEnrolledCourses().add(course);
         courseService.enrollStudent(user, course);
-        userRepository.save(user);
         return "enrolled in course";
     }
 
@@ -93,7 +92,6 @@ public class UserService {
         verificationTokenService.saveToken(databaseToken);
         User user = databaseToken.getUser();
         user.setEnabled(true);
-        userRepository.save(user);
         return "Email verified!";
     }
 }
