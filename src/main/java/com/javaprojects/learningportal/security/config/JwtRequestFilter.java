@@ -1,6 +1,7 @@
 package com.javaprojects.learningportal.security.config;
 
-import com.javaprojects.learningportal.service.JwtUtil;
+import com.javaprojects.learningportal.repository.BlacklistedTokenRepository;
+import com.javaprojects.learningportal.service.auth.JwtUtil;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -22,6 +23,7 @@ import java.io.IOException;
 public class JwtRequestFilter extends OncePerRequestFilter {
     private final JwtUtil jwtUtil;
     private final UserDetailsService userDetailsService;
+    private final BlacklistedTokenRepository blacklistedTokenRepository;
     @Override
     protected void doFilterInternal(@NonNull HttpServletRequest request,
                                     @NonNull HttpServletResponse response,
@@ -35,6 +37,12 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             return;
         }
         jwtToken = authHeader.substring(7);
+
+        if (blacklistedTokenRepository.existsByToken(jwtToken)) {
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Token is blacklisted.");
+            return;
+        }
+
         email = jwtUtil.extractEmail(jwtToken);
         if (email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             UserDetails userDetails = userDetailsService.loadUserByUsername(email);
