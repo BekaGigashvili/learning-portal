@@ -7,10 +7,14 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class LessonsService {
+public class LessonService {
     private final LessonRepository lessonRepository;
 
     public Lesson createLesson(Lesson lesson) {
         return lessonRepository.save(lesson);
+    }
+    public Lesson getLesson(Long lessonId) {
+        return lessonRepository.findById(lessonId)
+                .orElseThrow(() -> new RuntimeException("Lesson not found"));
     }
 }

@@ -6,14 +6,14 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashSet;
+import java.nio.file.AccessDeniedException;
 import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
 public class CourseService {
     private final CourseRepository courseRepository;
-    private final LessonsService lessonsService;
+    private final LessonService lessonService;
 
     @Transactional
     public void enrollStudent(User user, Course course) {
@@ -21,16 +21,12 @@ public class CourseService {
     }
 
     public Set<User> getEnrolledStudents(Long courseId) {
-        Course course = courseRepository
-                .findById(courseId)
-                .orElseThrow(() -> new RuntimeException("Course not found"));
+        Course course = getCourse(courseId);
         return course.getEnrolledStudents();
     }
 
     public Set<Lesson> getCourseLessons(Long courseId) {
-        Course course = courseRepository
-                .findById(courseId)
-                .orElseThrow(() -> new RuntimeException("Course not found"));
+        Course course = getCourse(courseId);
         return course.getLessons();
     }
 
@@ -64,13 +60,38 @@ public class CourseService {
         courseRepository.save(course);
         return getCourseResponse(course);
     }
+    @Transactional
+    public String deleteCourse(Long courseId, String instructorEmail) throws AccessDeniedException {
+        Course course = getCourse(courseId);
+        if(!course.getInstructor().getEmail().equals(instructorEmail)) {
+            throw new AccessDeniedException("You are not the owner of this course!");
+        }
+        courseRepository.delete(course);
+        return "Course deleted";
+    }
 
     @Transactional
-    public CourseResponse addLesson(Long courseId, Lesson lesson, String instructorEmail) {
-        Course course = courseRepository.findById(courseId)
-                .orElseThrow(() -> new RuntimeException("Course not found"));
+    public CourseResponse addLesson(Long courseId, Lesson lesson, String instructorEmail) throws AccessDeniedException {
+        Course course = getCourse(courseId);
+        if(!course.getInstructor().getEmail().equals(instructorEmail)){
+            throw new AccessDeniedException("You are not the owner of this course!");
+        }
         lesson.setCourse(course);
         course.getLessons().add(lesson);
+        return getCourseResponse(course);
+    }
+
+    @Transactional
+    public CourseResponse deleteLesson(Long courseId,
+                                       Long lessonId,
+                                       String instructorEmail) throws AccessDeniedException {
+        Course course = getCourse(courseId);
+        if(!course.getInstructor().getEmail().equals(instructorEmail)){
+            throw new AccessDeniedException("You are not the owner of this course!");
+        }
+        Lesson lesson = lessonService.getLesson(lessonId);
+        course.getLessons().remove(lesson);
+        lesson.setCourse(null);
         return getCourseResponse(course);
     }
 }
