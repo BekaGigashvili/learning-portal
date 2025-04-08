@@ -27,6 +27,7 @@ public class WebSecurityConfig {
                         authorizeRequests
                                 .requestMatchers("/registration/**","/auth/**")
                                 .permitAll()
+                                .requestMatchers("/courses/search").hasAnyRole("INSTRUCTOR", "ADMIN", "STUDENT")
                                 .requestMatchers("/user/**").hasAnyRole("STUDENT", "INSTRUCTOR", "ADMIN")
                                 .requestMatchers("/courses/**").hasAnyRole("INSTRUCTOR", "ADMIN")
                                 .anyRequest().authenticated()
