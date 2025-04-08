@@ -1,5 +1,6 @@
-package com.javaprojects.learningportal.model;
+package com.javaprojects.learningportal.model.auth;
 
+import com.javaprojects.learningportal.model.User;
 import jakarta.persistence.*;
 import lombok.*;
 

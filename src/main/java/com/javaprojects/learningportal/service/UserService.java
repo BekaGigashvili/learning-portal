@@ -1,7 +1,11 @@
 package com.javaprojects.learningportal.service;
 
 import com.javaprojects.learningportal.model.*;
+import com.javaprojects.learningportal.model.auth.RegistrationRequest;
+import com.javaprojects.learningportal.model.auth.VerificationToken;
 import com.javaprojects.learningportal.repository.UserRepository;
+import com.javaprojects.learningportal.service.auth.EmailService;
+import com.javaprojects.learningportal.service.auth.VerificationTokenService;
 import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;

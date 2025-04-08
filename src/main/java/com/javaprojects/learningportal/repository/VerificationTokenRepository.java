@@ -1,7 +1,7 @@
 package com.javaprojects.learningportal.repository;
 
 import com.javaprojects.learningportal.model.User;
-import com.javaprojects.learningportal.model.VerificationToken;
+import com.javaprojects.learningportal.model.auth.VerificationToken;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

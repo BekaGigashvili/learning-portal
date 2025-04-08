@@ -1,4 +1,4 @@
-package com.javaprojects.learningportal.model;
+package com.javaprojects.learningportal.model.auth;
 
 import jakarta.validation.constraints.Email;
 import lombok.AllArgsConstructor;

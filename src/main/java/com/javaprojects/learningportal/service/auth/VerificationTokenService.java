@@ -1,7 +1,7 @@
-package com.javaprojects.learningportal.service;
+package com.javaprojects.learningportal.service.auth;
 
 import com.javaprojects.learningportal.model.User;
-import com.javaprojects.learningportal.model.VerificationToken;
+import com.javaprojects.learningportal.model.auth.VerificationToken;
 import com.javaprojects.learningportal.repository.VerificationTokenRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

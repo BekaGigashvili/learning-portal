@@ -1,8 +1,8 @@
 package com.javaprojects.learningportal.controller;
 
-import com.javaprojects.learningportal.model.AuthenticationRequest;
-import com.javaprojects.learningportal.model.AuthenticationResponse;
-import com.javaprojects.learningportal.service.AuthenticationService;
+import com.javaprojects.learningportal.model.auth.AuthenticationRequest;
+import com.javaprojects.learningportal.model.auth.AuthenticationResponse;
+import com.javaprojects.learningportal.service.auth.AuthenticationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;

@@ -1,4 +1,4 @@
-package com.javaprojects.learningportal.service;
+package com.javaprojects.learningportal.service.auth;
 
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;

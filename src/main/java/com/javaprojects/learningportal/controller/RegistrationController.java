@@ -1,6 +1,6 @@
 package com.javaprojects.learningportal.controller;
 
-import com.javaprojects.learningportal.model.RegistrationRequest;
+import com.javaprojects.learningportal.model.auth.RegistrationRequest;
 import com.javaprojects.learningportal.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
