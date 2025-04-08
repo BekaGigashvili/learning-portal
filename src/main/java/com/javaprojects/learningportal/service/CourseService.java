@@ -7,7 +7,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.nio.file.AccessDeniedException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -35,6 +38,7 @@ public class CourseService {
                 .findById(courseId)
                 .orElseThrow(() -> new RuntimeException("Course not found"));
     }
+
     private CourseResponse getCourseResponse(Course course) {
         return CourseResponse.builder()
                 .name(course.getName())
@@ -47,6 +51,13 @@ public class CourseService {
                         .map(Lesson::getTitle)
                         .toList())
                 .build();
+    }
+
+    public List<CourseResponse> getCoursesByName(String name) {
+        List<Course> courses = courseRepository.findByNameContainingIgnoreCase(name);
+        return courses.stream()
+                .map(this::getCourseResponse)
+                .collect(Collectors.toList());
     }
 
     public CourseResponse createCourse(CourseRequest request, User instructor) {
