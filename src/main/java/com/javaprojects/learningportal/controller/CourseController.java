@@ -2,12 +2,12 @@ package com.javaprojects.learningportal.controller;
 
 import com.javaprojects.learningportal.model.*;
 import com.javaprojects.learningportal.service.CourseService;
-import com.sun.jdi.LongValue;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import java.nio.file.AccessDeniedException;
 import java.util.Set;
 
 @RestController
@@ -31,12 +31,29 @@ public class CourseController {
         User instructor = (User) authentication.getPrincipal();
         return courseService.createCourse(request, instructor);
     }
+    @PostMapping("/delete/{courseId}")
+    @PreAuthorize("hasRole('INSTRUCTOR')")
+    public String deleteCourse(Authentication authentication,
+                               @PathVariable Long courseId) throws AccessDeniedException {
+        User instructor = (User) authentication.getPrincipal();
+        return courseService.deleteCourse(courseId, instructor.getEmail());
+    }
+
     @PutMapping("/{courseId}/add-lesson")
     @PreAuthorize("hasRole('INSTRUCTOR')")
     public CourseResponse addLesson(Authentication authentication,
                                     @PathVariable Long courseId,
-                                    @RequestBody Lesson lesson) {
+                                    @RequestBody Lesson lesson) throws AccessDeniedException {
         User instructor = (User) authentication.getPrincipal();
         return courseService.addLesson(courseId, lesson, instructor.getEmail());
+    }
+
+    @PutMapping("/{courseId}/{lessonId}/delete-lesson")
+    @PreAuthorize("hasRole('INSTRUCTOR')")
+    public CourseResponse deleteLesson(Authentication authentication,
+                                       @PathVariable Long courseId,
+                                       @PathVariable Long lessonId) throws AccessDeniedException {
+        User instructor = (User) authentication.getPrincipal();
+        return courseService.deleteLesson(courseId, lessonId, instructor.getEmail());
     }
 }
