@@ -8,6 +8,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.nio.file.AccessDeniedException;
+import java.util.List;
 import java.util.Set;
 
 @RestController
@@ -30,6 +31,10 @@ public class CourseController {
                                Authentication authentication) {
         User instructor = (User) authentication.getPrincipal();
         return courseService.createCourse(request, instructor);
+    }
+    @GetMapping("/search")
+    public List<CourseResponse> getCoursesByName(@RequestParam String name){
+        return courseService.getCoursesByName(name);
     }
     @PostMapping("/delete/{courseId}")
     @PreAuthorize("hasRole('INSTRUCTOR')")
