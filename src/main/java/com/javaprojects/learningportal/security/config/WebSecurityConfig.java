@@ -1,5 +1,6 @@
 package com.javaprojects.learningportal.security.config;
 
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,6 +12,8 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 @EnableWebSecurity
@@ -27,6 +30,8 @@ public class WebSecurityConfig {
                         authorizeRequests
                                 .requestMatchers("/registration/**","/auth/**")
                                 .permitAll()
+                                .requestMatchers("/courses")
+                                .permitAll()
                                 .requestMatchers("/courses/search").hasAnyRole("INSTRUCTOR", "ADMIN", "STUDENT")
                                 .requestMatchers("/user/**").hasAnyRole("STUDENT", "INSTRUCTOR", "ADMIN")
                                 .requestMatchers("/courses/**").hasAnyRole("INSTRUCTOR", "ADMIN")
@@ -39,5 +44,18 @@ public class WebSecurityConfig {
                 ).authenticationProvider(authenticationProvider)
                 .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
+    }
+    @Bean
+    public WebMvcConfigurer corsConfigurer() {
+        return new WebMvcConfigurer() {
+            @Override
+            public void addCorsMappings(@NonNull CorsRegistry registry) {
+                registry.addMapping("/**")
+                        .allowedOrigins("http://localhost:3000")
+                        .allowedMethods("*")
+                        .allowedHeaders("*")
+                        .allowCredentials(true);
+            }
+        };
     }
 }
