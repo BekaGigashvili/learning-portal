@@ -26,14 +26,17 @@ public class UserService {
     private final EmailService emailService;
     private final VerificationTokenService verificationTokenService;
 
+    public User getUserById(Long userId) {
+        return userRepository
+                .findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+    }
     @Transactional
     public String enrollInCourse(Long courseId, Long userId) {
         Course course = courseService.getCourse(courseId);
-        User user = userRepository
-                .findById(userId)
-                .orElseThrow(() -> new RuntimeException("User not found"));
+        User user = getUserById(userId);
         if(user.getEnrolledCourses().contains(course)) {
-            return "User already enrolled in this course";
+            throw new UnsupportedOperationException("User is already enrolled in this course");
         }
         user.getEnrolledCourses().add(course);
         courseService.enrollStudent(user, course);
