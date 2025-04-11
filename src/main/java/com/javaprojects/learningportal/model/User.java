@@ -37,6 +37,8 @@ public class User implements UserDetails {
     private VerificationToken verificationToken;
     @ManyToMany(mappedBy = "enrolledStudents", cascade = CascadeType.PERSIST)
     private Set<Course> enrolledCourses;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Order> orders;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
