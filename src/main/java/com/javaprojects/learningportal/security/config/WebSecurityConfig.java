@@ -28,10 +28,12 @@ public class WebSecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorizeRequests ->
                         authorizeRequests
+                                .requestMatchers("/webhook").permitAll()
                                 .requestMatchers("/registration/**","/auth/**")
                                 .permitAll()
                                 .requestMatchers("/courses")
                                 .permitAll()
+                                .requestMatchers("/product/checkout").hasRole("STUDENT")
                                 .requestMatchers("/courses/search").hasAnyRole("INSTRUCTOR", "ADMIN", "STUDENT")
                                 .requestMatchers("/user/**").hasAnyRole("STUDENT", "INSTRUCTOR", "ADMIN")
                                 .requestMatchers("/courses/**").hasAnyRole("INSTRUCTOR", "ADMIN")
