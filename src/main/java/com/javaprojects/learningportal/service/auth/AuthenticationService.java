@@ -4,7 +4,6 @@ import com.javaprojects.learningportal.model.auth.AuthenticationRequest;
 import com.javaprojects.learningportal.model.auth.AuthenticationResponse;
 import com.javaprojects.learningportal.model.User;
 import com.javaprojects.learningportal.repository.UserRepository;
-import com.javaprojects.learningportal.service.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
