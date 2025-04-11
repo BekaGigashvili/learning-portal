@@ -1,6 +1,10 @@
 package com.javaprojects.learningportal.service;
 
 import com.javaprojects.learningportal.model.*;
+import com.javaprojects.learningportal.model.course.Course;
+import com.javaprojects.learningportal.model.order.Order;
+import com.javaprojects.learningportal.model.order.OrderResponse;
+import com.javaprojects.learningportal.model.order.PaymentMethodType;
 import com.javaprojects.learningportal.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

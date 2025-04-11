@@ -1,6 +1,6 @@
 package com.javaprojects.learningportal.repository;
 
-import com.javaprojects.learningportal.model.Order;
+import com.javaprojects.learningportal.model.order.Order;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

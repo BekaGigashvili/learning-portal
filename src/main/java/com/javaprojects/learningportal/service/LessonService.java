@@ -1,6 +1,6 @@
 package com.javaprojects.learningportal.service;
 
-import com.javaprojects.learningportal.model.Lesson;
+import com.javaprojects.learningportal.model.course.Lesson;
 import com.javaprojects.learningportal.repository.LessonRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

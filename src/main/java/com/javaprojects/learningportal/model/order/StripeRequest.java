@@ -1,4 +1,4 @@
-package com.javaprojects.learningportal.model;
+package com.javaprojects.learningportal.model.order;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

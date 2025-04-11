@@ -1,8 +1,8 @@
 package com.javaprojects.learningportal.service;
 
-import com.javaprojects.learningportal.model.Course;
-import com.javaprojects.learningportal.model.StripeRequest;
-import com.javaprojects.learningportal.model.StripeResponse;
+import com.javaprojects.learningportal.model.course.Course;
+import com.javaprojects.learningportal.model.order.StripeRequest;
+import com.javaprojects.learningportal.model.order.StripeResponse;
 import com.javaprojects.learningportal.model.User;
 import com.stripe.Stripe;
 import com.stripe.exception.StripeException;

@@ -1,6 +1,6 @@
 package com.javaprojects.learningportal.repository;
 
-import com.javaprojects.learningportal.model.Lesson;
+import com.javaprojects.learningportal.model.course.Lesson;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

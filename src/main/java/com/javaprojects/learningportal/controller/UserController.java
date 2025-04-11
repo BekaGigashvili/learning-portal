@@ -1,6 +1,6 @@
 package com.javaprojects.learningportal.controller;
 
-import com.javaprojects.learningportal.model.Course;
+import com.javaprojects.learningportal.model.course.Course;
 import com.javaprojects.learningportal.model.User;
 import com.javaprojects.learningportal.service.UserService;
 import lombok.RequiredArgsConstructor;

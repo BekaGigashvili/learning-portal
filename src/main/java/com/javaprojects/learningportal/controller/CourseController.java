@@ -1,6 +1,9 @@
 package com.javaprojects.learningportal.controller;
 
 import com.javaprojects.learningportal.model.*;
+import com.javaprojects.learningportal.model.course.CourseRequest;
+import com.javaprojects.learningportal.model.course.CourseResponse;
+import com.javaprojects.learningportal.model.course.Lesson;
 import com.javaprojects.learningportal.service.CourseService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -28,7 +31,7 @@ public class CourseController {
     @PostMapping("/create")
     @PreAuthorize("hasRole('INSTRUCTOR')")
     public CourseResponse createCourse(@RequestBody CourseRequest request,
-                               Authentication authentication) {
+                                       Authentication authentication) {
         User instructor = (User) authentication.getPrincipal();
         return courseService.createCourse(request, instructor);
     }

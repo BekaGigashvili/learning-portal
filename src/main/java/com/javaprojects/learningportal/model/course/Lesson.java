@@ -1,4 +1,4 @@
-package com.javaprojects.learningportal.model;
+package com.javaprojects.learningportal.model.course;
 
 import jakarta.persistence.*;
 import lombok.*;

@@ -1,11 +1,9 @@
 package com.javaprojects.learningportal.controller;
 
-import com.javaprojects.learningportal.model.StripeRequest;
-import com.javaprojects.learningportal.model.StripeResponse;
+import com.javaprojects.learningportal.model.order.StripeRequest;
+import com.javaprojects.learningportal.model.order.StripeResponse;
 import com.javaprojects.learningportal.model.User;
-import com.javaprojects.learningportal.service.OrderService;
 import com.javaprojects.learningportal.service.StripeService;
-import com.javaprojects.learningportal.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

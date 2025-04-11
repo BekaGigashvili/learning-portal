@@ -1,6 +1,6 @@
 package com.javaprojects.learningportal.controller;
 
-import com.javaprojects.learningportal.model.PaymentMethodType;
+import com.javaprojects.learningportal.model.order.PaymentMethodType;
 import com.javaprojects.learningportal.service.OrderService;
 import com.javaprojects.learningportal.service.UserService;
 import com.stripe.exception.SignatureVerificationException;

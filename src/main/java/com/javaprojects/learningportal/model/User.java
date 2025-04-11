@@ -1,6 +1,8 @@
 package com.javaprojects.learningportal.model;
 
 import com.javaprojects.learningportal.model.auth.VerificationToken;
+import com.javaprojects.learningportal.model.course.Course;
+import com.javaprojects.learningportal.model.order.Order;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;

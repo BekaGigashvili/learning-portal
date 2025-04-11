@@ -1,4 +1,4 @@
-package com.javaprojects.learningportal.controller;
+package com.javaprojects.learningportal.controller.auth;
 
 import com.javaprojects.learningportal.model.auth.RegistrationRequest;
 import com.javaprojects.learningportal.service.UserService;

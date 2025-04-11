@@ -1,5 +1,7 @@
-package com.javaprojects.learningportal.model;
+package com.javaprojects.learningportal.model.order;
 
+import com.javaprojects.learningportal.model.User;
+import com.javaprojects.learningportal.model.course.Course;
 import jakarta.persistence.*;
 import lombok.*;
 

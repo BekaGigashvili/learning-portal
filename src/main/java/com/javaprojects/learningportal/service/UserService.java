@@ -3,6 +3,7 @@ package com.javaprojects.learningportal.service;
 import com.javaprojects.learningportal.model.*;
 import com.javaprojects.learningportal.model.auth.RegistrationRequest;
 import com.javaprojects.learningportal.model.auth.VerificationToken;
+import com.javaprojects.learningportal.model.course.Course;
 import com.javaprojects.learningportal.repository.UserRepository;
 import com.javaprojects.learningportal.service.auth.EmailService;
 import com.javaprojects.learningportal.service.auth.VerificationTokenService;
