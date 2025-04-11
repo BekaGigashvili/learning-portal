@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.nio.file.AccessDeniedException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -55,6 +54,12 @@ public class CourseService {
 
     public List<CourseResponse> getCoursesByName(String name) {
         List<Course> courses = courseRepository.findByNameContainingIgnoreCase(name);
+        return courses.stream()
+                .map(this::getCourseResponse)
+                .collect(Collectors.toList());
+    }
+    public List<CourseResponse> getAllCourses() {
+        List<Course> courses = courseRepository.findAll();
         return courses.stream()
                 .map(this::getCourseResponse)
                 .collect(Collectors.toList());

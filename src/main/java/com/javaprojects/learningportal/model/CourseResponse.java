@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Data
@@ -15,7 +16,7 @@ public class CourseResponse {
     private String name;
     private String description;
     private String thumbnailURL;
-    private double price;
+    private BigDecimal price;
     private String instructorEmail;
     private List<String> lessonTitles;
 }

@@ -36,6 +36,10 @@ public class CourseController {
     public List<CourseResponse> getCoursesByName(@RequestParam String name){
         return courseService.getCoursesByName(name);
     }
+    @GetMapping
+    public List<CourseResponse> getAllCourses(){
+        return courseService.getAllCourses();
+    }
     @PostMapping("/delete/{courseId}")
     @PreAuthorize("hasRole('INSTRUCTOR')")
     public String deleteCourse(Authentication authentication,

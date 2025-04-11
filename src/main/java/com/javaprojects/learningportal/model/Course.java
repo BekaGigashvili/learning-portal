@@ -3,6 +3,7 @@ package com.javaprojects.learningportal.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -27,7 +28,7 @@ public class Course {
     private String thumbnailURL;
 
     @Column(nullable = false)
-    private double price;
+    private BigDecimal price;
 
     @ManyToOne
     @JoinColumn(name = "instructor_id")
