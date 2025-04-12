@@ -4,6 +4,7 @@ import com.javaprojects.learningportal.model.*;
 import com.javaprojects.learningportal.model.course.CourseRequest;
 import com.javaprojects.learningportal.model.course.CourseResponse;
 import com.javaprojects.learningportal.model.course.Lesson;
+import com.javaprojects.learningportal.model.course.LessonResponse;
 import com.javaprojects.learningportal.service.CourseService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -20,11 +21,15 @@ import java.util.Set;
 public class CourseController {
     private final CourseService courseService;
 
-    @GetMapping("/lessons/{courseId}")
-    public Set<Lesson> getCourseLessons(@PathVariable Long courseId) {
-        return courseService.getCourseLessons(courseId);
+    @GetMapping("/{courseId}/lessons")
+    @PreAuthorize("hasAnyRole('INSTRUCTOR', 'STUDENT')")
+    public Set<LessonResponse> getCourseLessons(@PathVariable Long courseId,
+                                                Authentication authentication) throws AccessDeniedException {
+        User user = (User) authentication.getPrincipal();
+        return courseService.getCourseLessons(courseId, user);
     }
     @GetMapping("/students/{courseId}")
+    @PreAuthorize("hasRole('INSTRUCTOR')")
     public Set<User> getEnrolledUsers(@PathVariable Long courseId) {
         return courseService.getEnrolledStudents(courseId);
     }
