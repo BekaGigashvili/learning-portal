@@ -26,6 +26,18 @@ public class LessonService {
         return lessonRepository.findById(lessonId)
                 .orElseThrow(() -> new RuntimeException("Lesson not found"));
     }
+    public LessonResponse getLessonResponse(Long lessonId) {
+        Lesson lesson = getLesson(lessonId);
+        return LessonResponse.builder()
+                .title(lesson.getTitle())
+                .courseName(lesson.getCourse().getName())
+                .videoURL(lesson.getVideoURL())
+                .quizNames(lesson.getQuizzes()
+                        .stream()
+                        .map(Quiz::getName)
+                        .collect(Collectors.toSet()))
+                .build();
+    }
     @Transactional
     @PreAuthorize("hasRole('INSTRUCTOR')")
     public LessonResponse addQuiz(Long lessonId, Quiz quiz, User instructor) throws AccessDeniedException {
