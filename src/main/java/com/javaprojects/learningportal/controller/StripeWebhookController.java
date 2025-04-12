@@ -29,7 +29,6 @@ public class StripeWebhookController {
 
     @PostMapping("/webhook")
     public ResponseEntity<String> handleStripeEvent(HttpServletRequest request) throws IOException {
-        System.out.println("Webhook received: " + request.getRequestURI());
         String payload = IOUtils.toString(request.getInputStream(), StandardCharsets.UTF_8);
         String sigHeader = request.getHeader("Stripe-Signature");
 
@@ -42,7 +41,6 @@ public class StripeWebhookController {
         }
 
         if ("checkout.session.completed".equals(event.getType())) {
-            System.out.println("✅ Stripe webhook triggered");
             Session session = (Session) event.getDataObjectDeserializer().getObject().orElse(null);
             if (session != null) {
                 Long userId = Long.parseLong(session.getMetadata().get("userId"));
