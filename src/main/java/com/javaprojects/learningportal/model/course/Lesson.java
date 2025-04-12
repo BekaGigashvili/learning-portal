@@ -3,6 +3,9 @@ package com.javaprojects.learningportal.model.course;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Entity
 @Setter
 @Getter
@@ -15,6 +18,8 @@ public class Lesson {
     private Long id;
     private String title;
     private String videoURL;
+    @OneToMany(mappedBy = "lesson", cascade = CascadeType.ALL)
+    private Set<Quiz> quizzes = new HashSet<>();
     @ManyToOne
     @JoinColumn(name = "course_id")
     private Course course;
