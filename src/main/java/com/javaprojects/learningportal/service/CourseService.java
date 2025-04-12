@@ -1,10 +1,7 @@
 package com.javaprojects.learningportal.service;
 
 import com.javaprojects.learningportal.model.*;
-import com.javaprojects.learningportal.model.course.Course;
-import com.javaprojects.learningportal.model.course.CourseRequest;
-import com.javaprojects.learningportal.model.course.CourseResponse;
-import com.javaprojects.learningportal.model.course.Lesson;
+import com.javaprojects.learningportal.model.course.*;
 import com.javaprojects.learningportal.repository.CourseRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -31,9 +28,16 @@ public class CourseService {
         return course.getEnrolledStudents();
     }
 
-    public Set<Lesson> getCourseLessons(Long courseId) {
+    public Set<LessonResponse> getCourseLessons(Long courseId, User user) throws AccessDeniedException {
+        Role role = user.getRole();
         Course course = getCourse(courseId);
-        return course.getLessons();
+        if (user.getRole() == Role.STUDENT && !user.getEnrolledCourses().contains(course)) {
+            throw new AccessDeniedException("You are not enrolled in this course");
+        }
+        return course.getLessons()
+                .stream()
+                .map(lesson -> lessonService.getLessonResponse(lesson.getId()))
+                .collect(Collectors.toSet());
     }
 
     public Course getCourse(Long courseId) {
