@@ -1,5 +1,6 @@
 package com.javaprojects.learningportal.controller;
 
+import com.javaprojects.learningportal.model.UserProfile;
 import com.javaprojects.learningportal.model.course.Course;
 import com.javaprojects.learningportal.model.User;
 import com.javaprojects.learningportal.model.course.CourseResponse;
@@ -31,5 +32,11 @@ public class UserController {
     public List<CourseResponse> getEnrolledCourses(Authentication authentication) {
         User user = (User) authentication.getPrincipal();
         return userService.getEnrolledCourses(user.getId());
+    }
+    @GetMapping("/me")
+    @PreAuthorize("hasRole('STUDENT')")
+    public UserProfile getUserProfile(Authentication authentication) {
+        User user = (User) authentication.getPrincipal();
+        return userService.getUserProfile(user);
     }
 }
