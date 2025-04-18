@@ -1,10 +1,7 @@
 package com.javaprojects.learningportal.controller;
 
 import com.javaprojects.learningportal.model.*;
-import com.javaprojects.learningportal.model.course.CourseRequest;
-import com.javaprojects.learningportal.model.course.CourseResponse;
-import com.javaprojects.learningportal.model.course.Lesson;
-import com.javaprojects.learningportal.model.course.LessonResponse;
+import com.javaprojects.learningportal.model.course.*;
 import com.javaprojects.learningportal.service.CourseService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -44,9 +41,10 @@ public class CourseController {
     public List<CourseResponse> getCoursesByName(@RequestParam String name){
         return courseService.getCoursesByName(name);
     }
-    @GetMapping
-    public List<CourseResponse> getAllCourses(){
-        return courseService.getAllCourses();
+    @GetMapping("/{courseId}")
+    public CourseResponse getCourseById(@PathVariable Long courseId) {
+        Course course = courseService.getCourse(courseId);
+        return courseService.getCourseResponse(course);
     }
     @PostMapping("/delete/{courseId}")
     @PreAuthorize("hasRole('INSTRUCTOR')")
