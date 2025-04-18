@@ -43,8 +43,8 @@ public class StripeService {
 
         SessionCreateParams params = SessionCreateParams.builder()
                 .setMode((SessionCreateParams.Mode.PAYMENT))
-                .setSuccessUrl("http://localhost:3000/dashboard")
-                .setCancelUrl("http://localhost:3000/dashboard")
+                .setSuccessUrl("http://localhost:3000/profile")
+                .setCancelUrl("http://localhost:3000/profile")
                 .putMetadata("userId", String.valueOf(user.getId()))
                 .putMetadata("courseId", String.valueOf(stripeRequest.getCourseId()))
                 .putMetadata("paymentMethod", stripeRequest.getPaymentMethodType().toString())
