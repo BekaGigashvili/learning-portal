@@ -27,6 +27,16 @@ public class CourseService {
         Course course = getCourse(courseId);
         return course.getEnrolledStudents();
     }
+    @Transactional
+    public boolean isUserEnrolled(Long courseId, User user) {
+        Course course = getCourse(courseId);
+        for(User enrolledUser : course.getEnrolledStudents()){
+            if(enrolledUser.getEmail().equals(user.getEmail())){
+                return true;
+            }
+        }
+        return false;
+    }
 
     public Set<LessonResponse> getCourseLessons(Long courseId, User user) throws AccessDeniedException {
         Role role = user.getRole();
@@ -46,8 +56,9 @@ public class CourseService {
                 .orElseThrow(() -> new RuntimeException("Course not found"));
     }
 
-    private CourseResponse getCourseResponse(Course course) {
+    public CourseResponse getCourseResponse(Course course) {
         return CourseResponse.builder()
+                .id(course.getId())
                 .name(course.getName())
                 .description(course.getDescription())
                 .thumbnailURL(course.getThumbnailURL())
@@ -55,6 +66,7 @@ public class CourseService {
                 .price(course.getPrice())
                 .lessonTitles(course.getLessons()
                         .stream()
+                        .sorted((l1, l2) -> Long.compare(l1.getId(), l2.getId())) // sort by ID
                         .map(Lesson::getTitle)
                         .toList())
                 .build();
@@ -66,6 +78,7 @@ public class CourseService {
                 .map(this::getCourseResponse)
                 .collect(Collectors.toList());
     }
+
     public List<CourseResponse> getAllCourses() {
         List<Course> courses = courseRepository.findAll();
         return courses.stream()
@@ -84,10 +97,11 @@ public class CourseService {
         courseRepository.save(course);
         return getCourseResponse(course);
     }
+
     @Transactional
     public String deleteCourse(Long courseId, String instructorEmail) throws AccessDeniedException {
         Course course = getCourse(courseId);
-        if(!course.getInstructor().getEmail().equals(instructorEmail)) {
+        if (!course.getInstructor().getEmail().equals(instructorEmail)) {
             throw new AccessDeniedException("You are not the owner of this course!");
         }
         courseRepository.delete(course);
@@ -97,7 +111,7 @@ public class CourseService {
     @Transactional
     public CourseResponse addLesson(Long courseId, Lesson lesson, String instructorEmail) throws AccessDeniedException {
         Course course = getCourse(courseId);
-        if(!course.getInstructor().getEmail().equals(instructorEmail)){
+        if (!course.getInstructor().getEmail().equals(instructorEmail)) {
             throw new AccessDeniedException("You are not the owner of this course!");
         }
         lesson.setCourse(course);
@@ -110,7 +124,7 @@ public class CourseService {
                                        Long lessonId,
                                        String instructorEmail) throws AccessDeniedException {
         Course course = getCourse(courseId);
-        if(!course.getInstructor().getEmail().equals(instructorEmail)){
+        if (!course.getInstructor().getEmail().equals(instructorEmail)) {
             throw new AccessDeniedException("You are not the owner of this course!");
         }
         Lesson lesson = lessonService.getLesson(lessonId);
