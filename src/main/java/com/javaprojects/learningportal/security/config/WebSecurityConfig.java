@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -20,26 +21,28 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @RequiredArgsConstructor
 public class WebSecurityConfig {
     private final AuthenticationEntryPoint authenticationEntryPoint;
+    private final CustomAccessDeniedHandler accessDeniedHandler;
     private final JwtRequestFilter jwtRequestFilter;
     private final AuthenticationProvider authenticationProvider;
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
+                .cors(cors -> {})
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorizeRequests ->
                         authorizeRequests
                                 .requestMatchers("/webhook").permitAll()
-                                .requestMatchers("/registration/**","/auth/**")
+                                .requestMatchers("/auth/**")
                                 .permitAll()
-                                .requestMatchers("/courses")
-                                .permitAll()
+                                .requestMatchers("/courses/search").permitAll()
+                                .requestMatchers("/courses/{courseId}").permitAll()
                                 .requestMatchers("/product/checkout").hasRole("STUDENT")
-                                .requestMatchers("/courses/search").hasAnyRole("INSTRUCTOR", "ADMIN", "STUDENT")
                                 .requestMatchers("/user/**").hasAnyRole("STUDENT", "INSTRUCTOR", "ADMIN")
                                 .requestMatchers("/courses/**").hasAnyRole("INSTRUCTOR", "ADMIN")
                                 .anyRequest().authenticated()
                 ).exceptionHandling(exception ->
-                        exception.authenticationEntryPoint(authenticationEntryPoint))
+                        exception.authenticationEntryPoint(authenticationEntryPoint)
+                                .accessDeniedHandler(accessDeniedHandler))
                 .sessionManagement(sessionManagement ->
                         sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS
                         )
