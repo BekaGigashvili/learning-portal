@@ -33,16 +33,37 @@ public class UserService {
     private final EmailService emailService;
     private final VerificationTokenService verificationTokenService;
 
+    @Transactional
+    public UserProfile getUserProfile(User user) {
+        if (!userRepository.existsById(user.getId())) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found");
+        }
+        User managedUser = userRepository.findById(user.getId())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
+
+        return UserProfile.builder()
+                .firstName(managedUser.getFirstName())
+                .lastName(managedUser.getLastName())
+                .email(managedUser.getEmail())
+                .photoUrl(managedUser.getPhotoUrl())
+                .enrolledCourses(managedUser.getEnrolledCourses()
+                        .stream()
+                        .map(courseService::getCourseResponse)
+                        .collect(Collectors.toList()))
+                .build();
+    }
+
     public User getUserById(Long userId) {
         return userRepository
                 .findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
     }
+
     @Transactional
     public ResponseEntity<String> enrollInCourse(Long courseId, Long userId) {
         Course course = courseService.getCourse(courseId);
         User user = getUserById(userId);
-        if(user.getEnrolledCourses().contains(course)) {
+        if (user.getEnrolledCourses().contains(course)) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Already enrolled");
         }
         user.getEnrolledCourses().add(course);
@@ -60,12 +81,13 @@ public class UserService {
                 .map(courseService::getCourseResponse)   // Map each Course to CourseResponse
                 .collect(Collectors.toList());
     }
+
     @Transactional
     public String register(RegistrationRequest request) throws MessagingException {
         String email = request.getEmail();
         Optional<User> optUser = userRepository.findByEmail(email);
         User user = new User();
-        if(optUser.isPresent()) {
+        if (optUser.isPresent()) {
             User existingUser = optUser.get();
             if (existingUser.isEnabled()) {
                 throw new RuntimeException("Email already registered!");
@@ -76,7 +98,7 @@ public class UserService {
                 verificationTokenService.deleteByUser(existingUser);
                 user = existingUser;
             }
-        }else{
+        } else {
             user.setEmail(email);
             user.setFirstName(request.getFirstName());
             user.setLastName(request.getLastName());
@@ -98,12 +120,12 @@ public class UserService {
     }
 
     @Transactional
-    public String verifyAndEnableUser(String token){
+    public String verifyAndEnableUser(String token) {
         VerificationToken databaseToken = verificationTokenService.findByToken(token);
-        if(databaseToken.getConfirmedAt() != null){
+        if (databaseToken.getConfirmedAt() != null) {
             return "Email already verified";
         }
-        if(databaseToken.getExpiryDate().isBefore(LocalDateTime.now())){
+        if (databaseToken.getExpiryDate().isBefore(LocalDateTime.now())) {
             return "Verification link expired";
         }
         databaseToken.setConfirmedAt(LocalDateTime.now());
