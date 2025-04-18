@@ -4,19 +4,25 @@ import com.javaprojects.learningportal.model.*;
 import com.javaprojects.learningportal.model.auth.RegistrationRequest;
 import com.javaprojects.learningportal.model.auth.VerificationToken;
 import com.javaprojects.learningportal.model.course.Course;
+import com.javaprojects.learningportal.model.course.CourseResponse;
 import com.javaprojects.learningportal.repository.UserRepository;
 import com.javaprojects.learningportal.service.auth.EmailService;
 import com.javaprojects.learningportal.service.auth.VerificationTokenService;
 import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -33,22 +39,26 @@ public class UserService {
                 .orElseThrow(() -> new RuntimeException("User not found"));
     }
     @Transactional
-    public String enrollInCourse(Long courseId, Long userId) {
+    public ResponseEntity<String> enrollInCourse(Long courseId, Long userId) {
         Course course = courseService.getCourse(courseId);
         User user = getUserById(userId);
         if(user.getEnrolledCourses().contains(course)) {
-            throw new UnsupportedOperationException("User is already enrolled in this course");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Already enrolled");
         }
         user.getEnrolledCourses().add(course);
         courseService.enrollStudent(user, course);
-        return "enrolled in course";
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body("User enrolled in this course");
     }
 
-    public Set<Course> getEnrolledCourses(Long userId) {
+    public List<CourseResponse> getEnrolledCourses(Long userId) {
         User user = userRepository
                 .findById(userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
-        return user.getEnrolledCourses();
+        return user.getEnrolledCourses().stream()
+                .map(courseService::getCourseResponse)   // Map each Course to CourseResponse
+                .collect(Collectors.toList());
     }
     @Transactional
     public String register(RegistrationRequest request) throws MessagingException {
