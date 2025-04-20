@@ -50,6 +50,7 @@ public class UserService {
                         .stream()
                         .map(courseService::getCourseResponse)
                         .collect(Collectors.toList()))
+                .role(managedUser.getRole())
                 .build();
     }
 
@@ -102,7 +103,7 @@ public class UserService {
             user.setEmail(email);
             user.setFirstName(request.getFirstName());
             user.setLastName(request.getLastName());
-            user.setRole(Role.STUDENT);
+            user.setRole(request.getRole());
             String encodedPassword = bCryptPasswordEncoder.encode(request.getPassword());
             user.setPassword(encodedPassword);
             user.setEnabled(false);
