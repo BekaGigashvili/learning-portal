@@ -1,5 +1,6 @@
 package com.javaprojects.learningportal.model.auth;
 
+import com.javaprojects.learningportal.model.Role;
 import jakarta.validation.constraints.Email;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -14,4 +15,5 @@ public class RegistrationRequest {
     @Email
     private final String email;
     private final String password;
+    private final Role role;
 }
