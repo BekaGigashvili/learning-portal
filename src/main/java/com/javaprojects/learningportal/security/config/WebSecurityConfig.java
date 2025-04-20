@@ -37,8 +37,8 @@ public class WebSecurityConfig {
                                 .requestMatchers("/courses/search").permitAll()
                                 .requestMatchers("/courses/{courseId}").permitAll()
                                 .requestMatchers("/product/checkout").hasRole("STUDENT")
-                                .requestMatchers("/user/**").hasAnyRole("STUDENT", "INSTRUCTOR", "ADMIN")
-                                .requestMatchers("/courses/**").hasAnyRole("INSTRUCTOR", "ADMIN")
+                                .requestMatchers("/user/**").hasAnyRole("STUDENT", "LECTURER", "ADMIN")
+                                .requestMatchers("/courses/**").hasAnyRole("LECTURER", "ADMIN")
                                 .anyRequest().authenticated()
                 ).exceptionHandling(exception ->
                         exception.authenticationEntryPoint(authenticationEntryPoint)

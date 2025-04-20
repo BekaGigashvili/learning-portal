@@ -19,19 +19,19 @@ public class CourseController {
     private final CourseService courseService;
 
     @GetMapping("/{courseId}/lessons")
-    @PreAuthorize("hasAnyRole('INSTRUCTOR', 'STUDENT')")
+    @PreAuthorize("hasAnyRole('LECTURER', 'STUDENT')")
     public Set<LessonResponse> getCourseLessons(@PathVariable Long courseId,
                                                 Authentication authentication) throws AccessDeniedException {
         User user = (User) authentication.getPrincipal();
         return courseService.getCourseLessons(courseId, user);
     }
     @GetMapping("/students/{courseId}")
-    @PreAuthorize("hasRole('INSTRUCTOR')")
+    @PreAuthorize("hasRole('LECTURER')")
     public Set<User> getEnrolledUsers(@PathVariable Long courseId) {
         return courseService.getEnrolledStudents(courseId);
     }
     @PostMapping("/create")
-    @PreAuthorize("hasRole('INSTRUCTOR')")
+    @PreAuthorize("hasRole('LECTURER')")
     public CourseResponse createCourse(@RequestBody CourseRequest request,
                                        Authentication authentication) {
         User instructor = (User) authentication.getPrincipal();
@@ -47,7 +47,7 @@ public class CourseController {
         return courseService.getCourseResponse(course);
     }
     @PostMapping("/delete/{courseId}")
-    @PreAuthorize("hasRole('INSTRUCTOR')")
+    @PreAuthorize("hasRole('LECTURER')")
     public String deleteCourse(Authentication authentication,
                                @PathVariable Long courseId) throws AccessDeniedException {
         User instructor = (User) authentication.getPrincipal();
@@ -55,7 +55,7 @@ public class CourseController {
     }
 
     @PutMapping("/{courseId}/add-lesson")
-    @PreAuthorize("hasRole('INSTRUCTOR')")
+    @PreAuthorize("hasRole('LECTURER')")
     public CourseResponse addLesson(Authentication authentication,
                                     @PathVariable Long courseId,
                                     @RequestBody Lesson lesson) throws AccessDeniedException {
@@ -64,7 +64,7 @@ public class CourseController {
     }
 
     @PutMapping("/{courseId}/{lessonId}/delete-lesson")
-    @PreAuthorize("hasRole('INSTRUCTOR')")
+    @PreAuthorize("hasRole('LECTURER')")
     public CourseResponse deleteLesson(Authentication authentication,
                                        @PathVariable Long courseId,
                                        @PathVariable Long lessonId) throws AccessDeniedException {
