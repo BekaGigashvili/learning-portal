@@ -34,7 +34,7 @@ public class UserController {
         return userService.getEnrolledCourses(user.getId());
     }
     @GetMapping("/me")
-    @PreAuthorize("hasRole('STUDENT')")
+    @PreAuthorize("hasAnyRole('STUDENT', 'LECTURER')")
     public UserProfile getUserProfile(Authentication authentication) {
         User user = (User) authentication.getPrincipal();
         return userService.getUserProfile(user);
