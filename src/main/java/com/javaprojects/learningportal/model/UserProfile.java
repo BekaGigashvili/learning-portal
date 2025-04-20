@@ -18,4 +18,5 @@ public class UserProfile {
     private String email;
     private String photoUrl;
     private List<CourseResponse> enrolledCourses;
+    private Role role;
 }
